@@ -1,3 +1,12 @@
+It's a Tic-Tac-Toe game to learn React better. 
+
+- Indicates when a player has won the game,
+- Stores a game’s history as a game progresses,
+- Allows players to review a game’s history and see previous versions of a game’s board.
+
+More description -> https://react.dev/learn/tutorial-tic-tac-toe#adding-time-travel 
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
