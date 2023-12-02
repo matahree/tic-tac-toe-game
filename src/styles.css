@@ -1,7 +1,7 @@
 body {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     flex-direction: column;
     height: 90vh;
     margin: 0;
@@ -40,4 +40,20 @@ body {
     font-size: 40px;
     font-weight: bold;
     margin:10px;
+}
+.history{
+    background-color: #F0EAD6;
+    color: black;
+    font-size: 18px;
+    padding: 10px 40px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+}
+
+li{
+    font-size: 20px;
+    font-weight: bold;
 }

@@ -1,38 +1,35 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 function Square({ value, onSquareClick }) {
-    return <button className="square" onClick={onSquareClick}  >{value}</button>;
+    return (
+        <button className="square" onClick={onSquareClick}>
+            {value}
+        </button>
+    );
 }
 
-// Array(9).fill(null) creates an array with nine elements and sets each of them to null
-export default function Board() {
-    const [xIsNext, setXIsNext]= useState(true);
-    const [squares, setSquares]= useState(Array(9).fill(null))
-
-    function handleClick(u){
-        if(squares[u] || calculateWinner(squares)){
-            return;
-        }
-        const nextSquares = squares.slice();
-        if(xIsNext){
-            nextSquares[u] = "X"
-        }
-        else {
-            nextSquares[u] = "O"
-        }
-        setSquares(nextSquares);
-        setXIsNext(!xIsNext);
-    }
-
+function Board({ xIsNext, squares, onPlay }) {
     const winner = calculateWinner(squares);
     let status;
     if (winner) {
-        status = "Winner is: " + winner;
+        status = 'Winner: ' + winner;
     } else {
-        status = "Next player is: " + (xIsNext ? "X" : "O");
+        status = 'Next player: ' + (xIsNext ? 'X' : 'O');
     }
 
-    // () => is an arrow function which is a shorter way to define functions
+    function handleClick(i) {
+        if (calculateWinner(squares) || squares[i]) {
+            return;
+        }
+        const nextSquares = squares.slice();
+        if (xIsNext) {
+            nextSquares[i] = 'X';
+        } else {
+            nextSquares[i] = 'O';
+        }
+        onPlay(nextSquares);
+    }
+
     return (
         <>
             <div className="status">{status}</div>
@@ -53,26 +50,74 @@ export default function Board() {
             </div>
         </>
     );
+}
 
-    function calculateWinner(squares) {
-        const lines = [
-            [0, 1, 2],
-            [3, 4, 5],
-            [6, 7, 8],
-            [0, 3, 6],
-            [1, 4, 7],
-            [2, 5, 8],
-            [0, 4, 8],
-            [2, 4, 6]
-        ];
-        for (let i = 0; i < lines.length; i++) {
-            const [a, b, c] = lines[i];
-            if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-                return squares[a];
-            }
-        }
-        return null;
+// "export default" tells to your index.js file to use the Game component as the top-level component
+// Array(9).fill(null) creates an array with nine elements and sets each of them to null
+export default function Game() {
+    const [history, setHistory] = useState([Array(9).fill(null)]);
+    const [currentMove, setCurrentMove] = useState(0);
+    const xIsNext = currentMove % 2 === 0;
+    const currentSquares = history[currentMove];
+
+    function handlePlay(nextSquares) {
+        const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+        setHistory(nextHistory);
+        setCurrentMove(nextHistory.length - 1);
     }
+
+    function jumpTo(nextMove) {
+        setCurrentMove(nextMove);
+    }
+
+    const moves = history.map((squares, move) => {
+        let description;
+        if (move > 0) {
+            description = 'Go to move #' + move;
+        } else {
+            description = 'Go to game start';
+        }
+        return (
+
+            <div>
+                <li key={move}>
+
+                <button className="history" onClick={() => jumpTo(move)}>{description}</button>
+                </li>
+            </div>
+        );
+    });
+
+    return (
+        <div className="game">
+            <div className="game-board">
+                <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+            </div>
+            <div className="game-info">
+                <ol>{moves}</ol>
+            </div>
+        </div>
+    );
+}
+
+function calculateWinner(squares) {
+    const lines = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+    ];
+    for (let i = 0; i < lines.length; i++) {
+        const [a, b, c] = lines[i];
+        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+            return squares[a];
+        }
+    }
+    return null;
 }
 
 // NOTE: In React, it’s conventional to use onSomething names for props which represent events
