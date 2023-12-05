@@ -27,6 +27,10 @@ body {
     background-color: #ffd7ba;
 }
 
+.winning {
+    background-color: yellow;
+  }
+
 .board-row{
     display: flex;
     align-items: center;
