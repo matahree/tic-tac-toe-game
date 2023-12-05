@@ -16,11 +16,11 @@ function Board({ gameOver, setGameOver, xIsNext, squares, onPlay }) {
   const { winner, line } = calculateWinner(squares);
   let status;
   if (winner) {
-    status = "win: " + winner;
+    status = "Winner: " + winner;
     setGameOver(true);
   } else if (!winner && !squares.includes(null)) {
     // Check for draw here
-    status = "Draw";
+    status = "It's a draw!";
     setGameOver(true);
   } else {
     status = "Next player: " + (xIsNext ? "X" : "O");
