@@ -27,6 +27,10 @@ body {
     background-color: #ffd7ba;
 }
 
+.winning {
+    background-color: yellow;
+  }
+
 .board-row{
     display: flex;
     align-items: center;
@@ -59,4 +63,18 @@ li{
 }
 h2{
     font-size: 30px;
+}
+
+.restart-button {
+    background-color: rgb(184, 163, 104); /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 10px;
 }
